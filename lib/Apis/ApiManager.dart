@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:movies/Models/Poster.dart';
 
+import '../Models/MovieDetails.dart';
 import '../Models/NewRelease.dart';
 import '../Models/Recommended.dart';
 
@@ -48,6 +49,18 @@ class ApiManager{
     Map<String,dynamic>json=jsonDecode(response.body);
     Recommended recommended =Recommended.fromJson(json);
     return recommended;
+
+  }
+
+
+  static Future<MovieDetails> getdetails(num movie_id)async{
+   Uri url =Uri.https("api.themoviedb.org","/3/movie/${movie_id}",{
+     "language":"en-US"
+   });
+   http.Response response = await http.get(url,headers: headers);
+   Map<String ,dynamic> json =jsonDecode(response.body);
+   MovieDetails movieDetails = MovieDetails.fromJson(json);
+   return movieDetails;
 
   }
 

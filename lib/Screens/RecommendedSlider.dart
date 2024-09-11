@@ -30,24 +30,81 @@ class RecommendedSlider extends StatelessWidget {
             viewportFraction: 0.5,
             aspectRatio: 16/9,
             autoPlay: false,
-            height: 250.0
+            height: 300
         ),
         items: [1,2,3,4,5].map((i) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
+                 // height: MediaQuery.of(context).size.height*0.5,
                   margin: EdgeInsets.symmetric(
                       horizontal: 10
                   ),
                   width: MediaQuery.of(context).size.width*0.5,
                   decoration: BoxDecoration(
-
-                  ),
-                  child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network("https://image.tmdb.org/t/p/w200${recommended[i].posterPath}"??"",
-                      width: 96.87,height: 127.4,
-                      fit: BoxFit.fill,),
+                    color: Color(0xffbac343534)
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network("https://image.tmdb.org/t/p/w200${recommended[i].posterPath}"??"",
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              fit: BoxFit.fill,),
+                          ),
+                          Container(
+                            width: 27,
+                            height: 36,
+
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(4),
+                                    topLeft: Radius.circular(4)
+                                ),
+                                color: Color(0xff514F4F)
+                            ),
+                            child: Icon(Icons.add,color: Colors.white),
+                          )
+                        ],
+                      ),
+
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.star,color: Colors.yellow,),
+                          Text("  ${recommended[i].id}"??"" ,style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16
+                          ),)
+                        ],
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 8,
+                          top: 7,
+                           bottom: 7
+                        ),
+                        child: Text( recommended[i].title??'',style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16
+                        ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(recommended[i].releaseDate?.substring(0,10)??""
+                        ,style: TextStyle(
+                            color: Colors.grey
+                          ),),
+                      )
+                    ],
                   )
               );
 

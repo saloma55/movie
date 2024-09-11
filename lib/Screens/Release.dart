@@ -53,26 +53,23 @@ class Release extends StatelessWidget {
                           fit: BoxFit.fill,),
                       )
                   ),
-                  ClipPath(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffbac514F4F
-                        ),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          )
-                      ),
-                      height: 70,
-                      margin: EdgeInsets.only(
-                        left: 10
-                      ),
-
-
-                      padding: EdgeInsets.all(15),
-                        child: Icon(Icons.add,color: Colors.white,)),
+                  Container(
+                    width: 27,
+                    height: 36,
+                    margin: EdgeInsets.only(
+                      left: 10
+                    ),
+                    decoration: BoxDecoration(
+                     borderRadius: BorderRadius.only(
+                       topRight: Radius.circular(4),
+                       topLeft: Radius.circular(4)
+                     ),
+                      color: Color(0xff514F4F)
+                    ),
+                    child: Icon(Icons.add,color: Colors.white),
                   )
-                ],
+
+              ],
               );
 
             },
