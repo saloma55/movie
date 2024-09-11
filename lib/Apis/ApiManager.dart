@@ -2,11 +2,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:movies/Models/CategoryFilter.dart';
 import 'package:movies/Models/Poster.dart';
 
+import '../Models/CategoryName.dart';
 import '../Models/MovieDetails.dart';
 import '../Models/NewRelease.dart';
 import '../Models/Recommended.dart';
+import '../Models/Search.dart';
 
 class ApiManager{
   static const Map<String, String> headers = {
@@ -63,6 +66,50 @@ class ApiManager{
    return movieDetails;
 
   }
+  
+  static Future<CategoryName>getgategory()async{
+   Uri url =Uri.https("api.themoviedb.org","/3/genre/movie/list",{
+     "language":"en"
+   });
+      http.Response response = await http.get(url,headers:headers );
+      Map<String,dynamic>json=jsonDecode(response.body);
+      CategoryName categoryName = CategoryName.fromJson(json);
+      return categoryName;
+  }
+
+  static  Future<CategoryFilter> categoryfilter(dynamic categoryid)async{
+
+   Uri url = Uri.https("api.themoviedb.org","/3/discover/movie",{
+     "language":"en",
+      "with_genres":categoryid.toString()
+   });
+  http.Response response =await http.get(url,headers: headers);
+
+  Map<String ,dynamic>json =jsonDecode(response.body);
+  CategoryFilter categoryFilter =CategoryFilter.fromJson(json);
+  return categoryFilter;
+
+
+  }
+
+
+
+  static Future<Search> getSearchResults(String query) async {
+    Uri url = Uri.https(
+        "api.themoviedb.org", "/3/search/movie", {"language": "en_US", "query": query});
+    var response = await http.get(url, headers: headers);
+    Map<String,dynamic> json = jsonDecode(response.body);
+    Search results = Search.fromJson(json);
+    return results;
+  }
+
+
+
+
+
+
+
+
 
 
 }
