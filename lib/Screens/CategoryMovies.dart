@@ -45,35 +45,33 @@ class CategoryMovies extends StatelessWidget {
             );
           }
           var filter = snapshot.data?.results ?? [];
-          return Expanded(
-            child: ListView.separated(
-              itemCount: filter.length,
-              separatorBuilder: (context, index) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      height: 7.0,
-                    ),
-                    Divider(
-                      color: Color(0xffcbcbcb),
-                    ),
-                    SizedBox(
-                      height: 7.0,
-                    ),
-                  ],
-                );
-              },
-              itemBuilder: (context, index) {
-                return MovieItem(
-                  movieCardModel: MovieCardModel(
-                      image:
-                          "https://image.tmdb.org/t/p/w500${filter[index].posterPath ?? ""}",
-                      title: filter[index].title ?? "",
-                      year: filter[index].releaseDate?.substring(0, 4) ?? "",
-                      additional: filter[index].originalTitle ?? ""),
-                );
-              },
-            ),
+          return ListView.separated(
+            itemCount: filter.length,
+            separatorBuilder: (context, index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 7.0,
+                  ),
+                  Divider(
+                    color: Color(0xffcbcbcb),
+                  ),
+                  SizedBox(
+                    height: 7.0,
+                  ),
+                ],
+              );
+            },
+            itemBuilder: (context, index) {
+              return MovieItem(
+                movieCardModel: MovieCardModel(
+                    image:
+                        "https://image.tmdb.org/t/p/w500${filter[index].posterPath ?? ""}",
+                    title: filter[index].title ?? "",
+                    year: filter[index].releaseDate?.substring(0, 4) ?? "",
+                    additional: filter[index].originalTitle ?? ""),
+              );
+            },
           );
         },
       ),

@@ -1,11 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/FireBaseManager/FireBaseFunctions.dart';
+import 'package:movies/Models/movie_card_model.dart';
+import 'package:movies/Screens/WatchList.dart';
 import '../Apis/ApiManager.dart';
 
-class Release extends StatelessWidget {
-  Release({super.key});
+class Release extends StatefulWidget {
 
+  Release({super.key,});
+
+  @override
+  State<Release> createState() => _ReleaseState();
+}
+
+class _ReleaseState extends State<Release> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,22 +86,38 @@ class Release extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height*0.06,
-                        margin: EdgeInsets.only(
-                          left: 10,
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 5.0,),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(4),
-                            topLeft: Radius.circular(4),
+                      InkWell(
+                        onTap:(){
+                          MovieCardModel moviemodel = MovieCardModel(
+                            isSelected: true,
+                               id:release[i].id.toString()?? "",
+                              image: release[i].posterPath??"",
+                              title: release[i].title??'',
+                              year: release[i].releaseDate?.substring(0,4)??"",
+                              additional:release[i].originalTitle??"");
+                          FireBaseFunctions.addmovie(moviemodel);
+
+
+
+
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height*0.06,
+                          margin: EdgeInsets.only(
+                            left: 10,
                           ),
-                          color: Color.fromARGB(230,81,79,79),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 5.0,),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(4),
+                              topLeft: Radius.circular(4),
+                            ),
+                            color: Color.fromARGB(230,81,79,79),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
