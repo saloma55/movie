@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget{
       routes: {
         CategoryMovies.routeName:(context) =>CategoryMovies() ,
         ViewDetails.routeName:(context) => ViewDetails(),
-        HomeScreen.routeName:(context) => HomeScreen()
+        HomeScreen.routeName:(context) => HomeScreen(),
       },
     );
   }
