@@ -1,12 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/Models/movie_card_model.dart';
+
 import '../Apis/ApiManager.dart';
 import '../FireBaseManager/FireBaseFunctions.dart';
+import '../Models/movie_card_model.dart';
 
-class RecommendedSlider extends StatelessWidget {
-  const RecommendedSlider({super.key});
+class Similars extends StatelessWidget {
+  num movieID;
+
+  Similars({
+    super.key,
+    required this.movieID,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,19 +26,22 @@ class RecommendedSlider extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(
               vertical: 10,
-              horizontal: 10,
+              horizontal: 20,
             ),
             child: Text(
-              'Recommended',
+              'More Like This',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20,
-                fontWeight: FontWeight.w300,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
           FutureBuilder(
-            future: ApiManager.getrecommend(),
+            future: ApiManager.getSimilarMovies(movieID),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
@@ -52,14 +60,14 @@ class RecommendedSlider extends StatelessWidget {
                   ),
                 );
               }
-              var recommended = snapshot.data?.results ?? [];
+              var similars = snapshot.data?.results ?? [];
               return CarouselSlider.builder(
                 options: CarouselOptions(
                   viewportFraction: 0.5,
                   aspectRatio: 16 / 9,
                   height: MediaQuery.of(context).size.height * 0.38,
                 ),
-                itemCount: recommended.length,
+                itemCount: similars.length,
                 itemBuilder: (context, i, realIndex) {
                   return Container(
                     margin: EdgeInsets.symmetric(
@@ -78,7 +86,7 @@ class RecommendedSlider extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Image.network(
-                                "https://image.tmdb.org/t/p/w200${recommended[i].posterPath}" ??
+                                "https://image.tmdb.org/t/p/w200${similars[i].posterPath}" ??
                                     "",
                                 width: MediaQuery.of(context).size.width,
                                 height: 200,
@@ -89,15 +97,15 @@ class RecommendedSlider extends StatelessWidget {
                               onTap: () {
                                 MovieCardModel moviemodel = MovieCardModel(
                                     isSelected: true,
-                                    id: recommended[i].id.toString() ?? "",
-                                    image: recommended[i].posterPath ?? "",
-                                    title: recommended[i].title ?? '',
-                                    year: recommended[i]
+                                    id: similars[i].id.toString() ?? "",
+                                    image: similars[i].posterPath ?? "",
+                                    title: similars[i].title ?? '',
+                                    year: similars[i]
                                             .releaseDate
                                             ?.substring(0, 4) ??
                                         "",
                                     additional:
-                                        recommended[i].originalTitle ?? "");
+                                        similars[i].originalTitle ?? "");
                                 FireBaseFunctions.addmovie(moviemodel);
                               },
                               child: Container(
@@ -131,7 +139,7 @@ class RecommendedSlider extends StatelessWidget {
                               color: Colors.yellow,
                             ),
                             Text(
-                              "  ${recommended[i].voteAverage}" ?? "",
+                              "  ${similars[i].voteAverage}" ?? "",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -147,7 +155,7 @@ class RecommendedSlider extends StatelessWidget {
                               bottom: 7,
                             ),
                             child: Text(
-                              recommended[i].title ?? '',
+                              similars[i].title ?? '',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -158,7 +166,7 @@ class RecommendedSlider extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            recommended[i].releaseDate?.substring(0, 10) ?? "",
+                            similars[i].releaseDate ?? "",
                             style: TextStyle(
                               color: Colors.grey,
                             ),

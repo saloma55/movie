@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/Screens/ViewDetails.dart';
 import '../Apis/ApiManager.dart';
+import '../FireBaseManager/FireBaseFunctions.dart';
+import '../Models/movie_card_model.dart';
 
 class Posters extends StatefulWidget {
   Posters({super.key});
@@ -37,7 +39,7 @@ class _PostersState extends State<Posters> {
           options: CarouselOptions(
             viewportFraction: 1.0,
             autoPlay: false,
-            height: 300.0,
+            height: MediaQuery.of(context).size.height*0.37,
           ),
           itemCount: popularpost.length,
           itemBuilder: (context, i, realIndex) {
@@ -112,22 +114,35 @@ class _PostersState extends State<Posters> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height*0.06,
-                          margin: EdgeInsets.only(
-                            left: 20,
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 5.0,),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              topLeft: Radius.circular(4),
+                        GestureDetector(
+                          onTap: () {
+                            MovieCardModel moviemodel = MovieCardModel(
+                                isSelected: true,
+                                id: popularpost[i].id.toString() ?? "",
+                                image: popularpost[i].posterPath ?? "",
+                                title: popularpost[i].title ?? '',
+                                year:
+                                popularpost[i].releaseDate?.substring(0, 4) ?? "",
+                                additional: popularpost[i].originalTitle ?? "");
+                            FireBaseFunctions.addmovie(moviemodel);
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height*0.06,
+                            margin: EdgeInsets.only(
+                              left: 20,
                             ),
-                            color: Color.fromARGB(230,81,79,79),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                            padding: EdgeInsets.symmetric(horizontal: 5.0,),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(4),
+                                topLeft: Radius.circular(4),
+                              ),
+                              color: Color.fromARGB(230,81,79,79),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],

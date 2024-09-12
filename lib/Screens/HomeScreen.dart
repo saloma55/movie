@@ -36,15 +36,15 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         unselectedLabelStyle: TextStyle(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 11,
           fontWeight: FontWeight.w300,
         ),
         selectedLabelStyle: TextStyle(
           color: Colors.yellow,
-          fontSize: 14,
+          fontSize: 11,
           fontWeight: FontWeight.w300,
         ),
-        iconSize: 24,
+        iconSize: 30,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         unselectedItemColor: Colors.white,
@@ -53,23 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'HOME',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'SEARCH',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage("assets/images/browseIcon.png"),
             ),
-            label: 'Browse',
+            label: 'BROWSE',
           ),
           BottomNavigationBarItem(
             icon: ImageIcon(
               AssetImage("assets/images/watchListIcon.png"),
             ),
-            label: 'Watch List',
+            label: 'WATCHLIST',
           ),
         ],
       ),
