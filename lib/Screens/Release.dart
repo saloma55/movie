@@ -8,77 +8,104 @@ class Release extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiManager.getsnewreleases(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
+    return Container(
+      color: Color(0xff282A28),
+      margin: EdgeInsets.only(
+        bottom: 30,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 15,
+              horizontal: 10,
+            ),
             child: Text(
-              'Something Went Wrong !',
+              'New Releases',
               style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
               ),
             ),
-          );
-        }
-        var release = snapshot.data?.results ?? [];
-        return CarouselSlider.builder(
-          options: CarouselOptions(
-            viewportFraction: 0.5,
-            aspectRatio: 16 / 9,
-            height: 250.0,
           ),
-          itemCount: release.length,
-          itemBuilder: (context, i, realIndex) {
-            return Stack(
-              children: [
-                Container(
-                  height: 250,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      "https://image.tmdb.org/t/p/w200${release[i].posterPath}" ??
-                          "",
-                      width: 100,
-                      height: 127.4,
-                      fit: BoxFit.fill,
+          FutureBuilder(
+            future: ApiManager.getsnewreleases(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    'Something Went Wrong !',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
                     ),
                   ),
+                );
+              }
+              var release = snapshot.data?.results ?? [];
+              return CarouselSlider.builder(
+                options: CarouselOptions(
+                  viewportFraction: 0.5,
+                  aspectRatio: 16 / 9,
+                  height: MediaQuery.of(context).size.height*0.25,
                 ),
-                Container(
-                  width: 27,
-                  height: 36,
-                  margin: EdgeInsets.only(
-                    left: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(4),
-                      topLeft: Radius.circular(4),
-                    ),
-                    color: Color(0xff514F4F),
-                  ),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
+                itemCount: release.length,
+                itemBuilder: (context, i, realIndex) {
+                  return Stack(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height*0.25,
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.network(
+                            "https://image.tmdb.org/t/p/w200${release[i].posterPath}" ??
+                                "",
+                            height: MediaQuery.of(context).size.height*0.25,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height*0.06,
+                        margin: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0,),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(4),
+                            topLeft: Radius.circular(4),
+                          ),
+                          color: Color.fromARGB(230,81,79,79),
+                        ),
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
     );
   }
 }

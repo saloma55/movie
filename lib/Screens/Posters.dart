@@ -51,9 +51,6 @@ class _PostersState extends State<Posters> {
               },
               child: Container(
                 width: MediaQuery.of(context).size.width * 1,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                ),
                 child: Stack(
                   alignment: Alignment.bottomLeft,
                   children: [
@@ -73,14 +70,14 @@ class _PostersState extends State<Posters> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                            bottom: 10,
+                            bottom: 5,
                             left: 110,
                           ),
                           child: Text(
                             popularpost[i].title ?? '',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Color(0xffcbcbcb),
                               fontSize: 17,
                               fontWeight: FontWeight.w400,
                             ),
@@ -88,8 +85,7 @@ class _PostersState extends State<Posters> {
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                            bottom: 10,
-                            left: 80,
+                            left: 100,
                           ),
                           child: Text(
                             popularpost[i].releaseDate?.substring(0, 10) ?? '',
@@ -117,19 +113,22 @@ class _PostersState extends State<Posters> {
                           ),
                         ),
                         Container(
-                          width: 27,
-                          height: 36,
+                          height: MediaQuery.of(context).size.height*0.06,
                           margin: EdgeInsets.only(
                             left: 20,
                           ),
+                          padding: EdgeInsets.symmetric(horizontal: 5.0,),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(4),
                               topLeft: Radius.circular(4),
                             ),
-                            color: Color(0xff514F4F),
+                            color: Color.fromARGB(230,81,79,79),
                           ),
-                          child: Icon(Icons.add, color: Colors.white),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
