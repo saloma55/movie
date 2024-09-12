@@ -81,7 +81,7 @@ class RecommendedSlider extends StatelessWidget {
                                 "https://image.tmdb.org/t/p/w200${recommended[i].posterPath}" ??
                                     "",
                                 width: MediaQuery.of(context).size.width,
-                                height: 200,
+                                height: MediaQuery.of(context).size.height*0.23,
                                 fit: BoxFit.fill,
                               ),
                             ),

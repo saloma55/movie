@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/FireBaseManager/FireBaseFunctions.dart';
 import 'package:movies/Models/movie_card_model.dart';
-import 'package:movies/Screens/WatchList.dart';
 import '../Apis/ApiManager.dart';
 
 class Release extends StatefulWidget {

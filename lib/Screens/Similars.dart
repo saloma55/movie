@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-
 import '../Apis/ApiManager.dart';
 import '../FireBaseManager/FireBaseFunctions.dart';
 import '../Models/movie_card_model.dart';
@@ -89,7 +88,8 @@ class Similars extends StatelessWidget {
                                 "https://image.tmdb.org/t/p/w200${similars[i].posterPath}" ??
                                     "",
                                 width: MediaQuery.of(context).size.width,
-                                height: 200,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.23,
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -97,13 +97,10 @@ class Similars extends StatelessWidget {
                               onTap: () {
                                 MovieCardModel moviemodel = MovieCardModel(
                                     isSelected: true,
-                                    id: similars[i].id.toString() ?? "",
+                                    id: similars[i].id.toString(),
                                     image: similars[i].posterPath ?? "",
                                     title: similars[i].title ?? '',
-                                    year: similars[i]
-                                            .releaseDate
-                                            ?.substring(0, 4) ??
-                                        "",
+                                    year: similars[i].releaseDate ?? "",
                                     additional:
                                         similars[i].originalTitle ?? "");
                                 FireBaseFunctions.addmovie(moviemodel);

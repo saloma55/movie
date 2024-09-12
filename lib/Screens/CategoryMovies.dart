@@ -36,7 +36,9 @@ class CategoryMovies extends StatelessWidget {
           future: ApiManager.categoryfilter(categoryModel.id),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
             if (snapshot.hasError) {
               return Center(

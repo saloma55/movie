@@ -20,7 +20,7 @@ class _PostersState extends State<Posters> {
       future: ApiManager.getposter(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(),);
         }
         if (snapshot.hasError) {
           return Center(
