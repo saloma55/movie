@@ -61,6 +61,16 @@ class RecommendedSlider extends StatelessWidget {
                 ),
                 itemCount: recommended.length,
                 itemBuilder: (context, i, realIndex) {
+                  MovieCardModel moviemodel = MovieCardModel(
+                      id: recommended[i].id.toString() ?? "",
+                      image: recommended[i].posterPath ?? "",
+                      title: recommended[i].title ?? '',
+                      year: recommended[i]
+                          .releaseDate
+                          ?.substring(0, 4) ??
+                          "",
+                      additional:
+                      recommended[i].originalTitle ?? "");
                   return Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 10,
@@ -87,36 +97,33 @@ class RecommendedSlider extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                MovieCardModel moviemodel = MovieCardModel(
-                                    isSelected: true,
-                                    id: recommended[i].id.toString() ?? "",
-                                    image: recommended[i].posterPath ?? "",
-                                    title: recommended[i].title ?? '',
-                                    year: recommended[i]
-                                            .releaseDate
-                                            ?.substring(0, 4) ??
-                                        "",
-                                    additional:
-                                        recommended[i].originalTitle ?? "");
+                                moviemodel.isSelected=true;
                                 FireBaseFunctions.addmovie(moviemodel);
                               },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.06,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 5.0,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(4),
-                                    topLeft: Radius.circular(4),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Image.asset(
+                                    "assets/images/save_image.png",
+                                    height: MediaQuery.of(context).size.height *
+                                        0.05,
+                                    color: moviemodel.isSelected
+                                        ? Color.fromARGB(230, 255, 255, 0)
+                                        : Color.fromARGB(230, 81, 79, 79),
                                   ),
-                                  color: Color.fromARGB(230, 81, 79, 79),
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                ),
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                      bottom: 5.0,
+                                    ),
+                                    child: Icon(
+                                      moviemodel.isSelected
+                                          ? Icons.done
+                                          : Icons.add,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

@@ -43,6 +43,13 @@ class _PostersState extends State<Posters> {
           ),
           itemCount: popularpost.length,
           itemBuilder: (context, i, realIndex) {
+            MovieCardModel moviemodel = MovieCardModel(
+                id: popularpost[i].id.toString() ?? "",
+                image: popularpost[i].posterPath ?? "",
+                title: popularpost[i].title ?? '',
+                year:
+                popularpost[i].releaseDate?.substring(0, 4) ?? "",
+                additional: popularpost[i].originalTitle ?? "");
             return GestureDetector(
               onTap: () {
                 Navigator.pushNamed(
@@ -99,13 +106,13 @@ class _PostersState extends State<Posters> {
                         ),
                       ],
                     ),
-                    Stack(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: 20,
-                          ),
-                          child: ClipRRect(
+                    Container(
+                      margin: EdgeInsets.only(
+                        left: 20,
+                      ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
                             borderRadius: BorderRadius.circular(7),
                             child: Image.network(
                               "https://image.tmdb.org/t/p/w200${popularpost[i].posterPath}" ??
@@ -113,39 +120,39 @@ class _PostersState extends State<Posters> {
                               height: 200,
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            MovieCardModel moviemodel = MovieCardModel(
-                                isSelected: true,
-                                id: popularpost[i].id.toString() ?? "",
-                                image: popularpost[i].posterPath ?? "",
-                                title: popularpost[i].title ?? '',
-                                year:
-                                popularpost[i].releaseDate?.substring(0, 4) ?? "",
-                                additional: popularpost[i].originalTitle ?? "");
-                            FireBaseFunctions.addmovie(moviemodel);
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height*0.06,
-                            margin: EdgeInsets.only(
-                              left: 20,
-                            ),
-                            padding: EdgeInsets.symmetric(horizontal: 5.0,),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(4),
-                                topLeft: Radius.circular(4),
-                              ),
-                              color: Color.fromARGB(230,81,79,79),
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
+                          GestureDetector(
+                            onTap: () {
+                              moviemodel.isSelected=true;
+                              FireBaseFunctions.addmovie(moviemodel);
+                            },
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/save_image.png",
+                                  height: MediaQuery.of(context).size.height *
+                                      0.05,
+                                  color: moviemodel.isSelected
+                                      ? Color.fromARGB(230, 255, 255, 0)
+                                      : Color.fromARGB(230, 81, 79, 79),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    bottom: 5.0,
+                                  ),
+                                  child: Icon(
+                                    moviemodel.isSelected
+                                        ? Icons.done
+                                        : Icons.add,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -41,10 +41,17 @@ class ViewDetails extends StatelessWidget {
               var title = snapshot.data?.title ?? "";
               var image = snapshot.data?.posterPath ?? "";
               var date = snapshot.data?.releaseDate ?? "";
-              var type = snapshot.data?.genres; //not Complete
+              var type = snapshot.data?.originCountry.toString();
               var brief = snapshot.data?.overview ?? "";
               var rating = snapshot.data?.voteAverage;
               var originalTitle = snapshot.data?.originalTitle;
+              MovieCardModel moviemodel = MovieCardModel(
+                id: id,
+                image: image,
+                title: title,
+                year: date,
+                additional: originalTitle ?? "",
+              );
               return Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -136,36 +143,37 @@ class ViewDetails extends StatelessWidget {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        MovieCardModel moviemodel =
-                                            MovieCardModel(
-                                          isSelected: true,
-                                          id: id,
-                                          image: image,
-                                          title: title,
-                                          year: date,
-                                          additional: originalTitle ?? "",
-                                        );
+                                        moviemodel.isSelected = true;
                                         FireBaseFunctions.addmovie(moviemodel);
                                       },
-                                      child: Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.06,
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 5.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(4),
-                                            topLeft: Radius.circular(4),
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Image.asset(
+                                            "assets/images/save_image.png",
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.05,
+                                            color: moviemodel.isSelected
+                                                ? Color.fromARGB(
+                                                    230, 255, 255, 0)
+                                                : Color.fromARGB(
+                                                    230, 81, 79, 79),
                                           ),
-                                          color:
-                                              Color.fromARGB(230, 81, 79, 79),
-                                        ),
-                                        child: Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                              bottom: 5.0,
+                                            ),
+                                            child: Icon(
+                                              moviemodel.isSelected
+                                                  ? Icons.done
+                                                  : Icons.add,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -178,7 +186,9 @@ class ViewDetails extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Movietypebox(),
+                                      Movietypebox(
+                                        type: type ?? "",
+                                      ),
                                       SizedBox(
                                         height: 7.0,
                                       ),

@@ -6,7 +6,6 @@ import 'package:movies/Models/movie_card_model.dart';
 import '../Apis/ApiManager.dart';
 
 class Release extends StatefulWidget {
-
   Release({
     super.key,
   });
@@ -62,7 +61,6 @@ class _ReleaseState extends State<Release> {
               }
               var release = snapshot.data?.results ?? [];
               return CarouselSlider.builder(
-
                 options: CarouselOptions(
                   viewportFraction: 0.5,
                   aspectRatio: 16 / 9,
@@ -70,7 +68,7 @@ class _ReleaseState extends State<Release> {
                 ),
                 itemCount: release.length,
                 itemBuilder: (context, i, realIndex) {
-                  MovieCardModel moviecardmodel=MovieCardModel(
+                  MovieCardModel moviemodel = MovieCardModel(
                       id: release[i].id.toString() ?? "",
                       image: release[i].posterPath ?? "",
                       title: release[i].title ?? '',
@@ -94,35 +92,40 @@ class _ReleaseState extends State<Release> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                         moviecardmodel.isSelected=true;
-                          FireBaseFunctions.addmovie(moviecardmodel);
-                        },
-                        child: Container(
-                            decoration:BoxDecoration(
-                  color: Color.fromARGB(230, 81, 79, 79),  // Set the background color
-                  borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),  // Curved top-left corner
-                  bottomLeft: Radius.circular(10),  // Curved bottom-left corner
-                  topRight: Radius.circular(10),  // No curve on top-right
-                  bottomRight: Radius.circular(0),
-                  )),
-                          height: MediaQuery.of(context).size.height * 0.06,
-                          margin: EdgeInsets.only(
-                            left: 10,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 5.0,
-                          ),
-
-                          child: Icon(
-                            moviecardmodel.isSelected?Icons.done: Icons.add,
-                            color:Colors.white,
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            moviemodel.isSelected = true;
+                            FireBaseFunctions.addmovie(moviemodel);
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/save_image.png",
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                color: moviemodel.isSelected
+                                    ? Color.fromARGB(230, 255, 255, 0)
+                                    : Color.fromARGB(230, 81, 79, 79),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  bottom: 5.0,
+                                ),
+                                child: Icon(
+                                  moviemodel.isSelected ? Icons.done : Icons.add,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      ],
+                    ],
                   );
                 },
               );
@@ -136,4 +139,3 @@ class _ReleaseState extends State<Release> {
     );
   }
 }
-

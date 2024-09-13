@@ -5,7 +5,6 @@ import 'package:movies/Models/movie_card_model.dart';
 
 import 'movie_item.dart';
 
-
 class Search extends StatefulWidget {
   Search({super.key});
 
@@ -50,7 +49,8 @@ class _SearchState extends State<Search> {
     });
 
     try {
-      var response = await ApiManager.getSearchResults(query); // Make the API call
+      var response =
+          await ApiManager.getSearchResults(query); // Make the API call
       setState(() {
         searchResults = response.results ?? []; // Update the search results
       });
@@ -71,9 +71,9 @@ class _SearchState extends State<Search> {
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            // Search input field
             Container(
               padding: EdgeInsets.symmetric(vertical: 2, horizontal: 7),
+              margin: EdgeInsets.only(top: 40.0,),
               decoration: BoxDecoration(
                 color: Color(0xff282A28),
                 borderRadius: BorderRadius.circular(30),
@@ -87,63 +87,68 @@ class _SearchState extends State<Search> {
                   hintText: 'Search',
                   hintStyle: TextStyle(color: Color(0xff514F4F), fontSize: 20),
                 ),
-                style: TextStyle(color: Colors.white), // Add this for white text
+                style:
+                    TextStyle(color: Colors.white), // Add this for white text
               ),
             ),
             SizedBox(height: 20),
-            if (isLoading) CircularProgressIndicator(), // Show loader while fetching results
+            if (isLoading) CircularProgressIndicator(),
+            // Show loader while fetching results
             Expanded(
               child: searchResults.isEmpty
                   ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/images/search-remove.png"
-                        ,height: MediaQuery.of(context).size.height*0.1
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      'No movies found',
-                      style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-              )
-                  : Expanded(
-                    child: ListView.separated(
-                separatorBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 7.0,
-                        ),
-                        Divider(
-                          color: Color(0xffcbcbcb),
-                        ),
-                        SizedBox(
-                          height: 7.0,
-                        ),
-                      ],
-                    );
-                },
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                    var movie = searchResults[index];
-                    return MovieItem(movieCardModel: MovieCardModel(
-                        image:"https://image.tmdb.org/t/p/w500${movie.posterPath}" ,
-                        title: movie.title,
-                        year: movie.releaseDate,
-                        additional: movie.originalTitle
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset("assets/images/search-remove.png",
+                              height: MediaQuery.of(context).size.height * 0.1),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            'No movies found',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
                     )
-                    );
-                },
-              ),
-                  ),
+                  : Expanded(
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 7.0,
+                              ),
+                              Divider(
+                                color: Color(0xffcbcbcb),
+                              ),
+                              SizedBox(
+                                height: 7.0,
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          var movie = searchResults[index];
+                          return MovieItem(
+                              movieCardModel: MovieCardModel(
+                                  image:
+                                      "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                                  title: movie.title,
+                                  year: movie.releaseDate,
+                                  additional: movie.originalTitle));
+                        },
+                      ),
+                    ),
             ),
           ],
         ),
       ),
     );
-  }}
+  }
+}

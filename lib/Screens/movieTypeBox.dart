@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Movietypebox extends StatelessWidget {
-  Movietypebox({super.key});
+  String type;
+  Movietypebox({super.key,required this.type,});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class Movietypebox extends StatelessWidget {
         ),
       ),
       child: Text(
-        "Action",
+        type,
         style: TextStyle(
           color: Color(0xffcbcbcb),
           fontSize: 15,
