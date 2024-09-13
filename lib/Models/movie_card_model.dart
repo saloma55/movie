@@ -1,4 +1,5 @@
 class MovieCardModel {
+
   dynamic id;
   String image;
   String title;

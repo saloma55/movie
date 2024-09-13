@@ -6,6 +6,7 @@ import 'package:movies/Models/movie_card_model.dart';
 import '../Apis/ApiManager.dart';
 
 class Release extends StatefulWidget {
+
   Release({
     super.key,
   });
@@ -61,6 +62,7 @@ class _ReleaseState extends State<Release> {
               }
               var release = snapshot.data?.results ?? [];
               return CarouselSlider.builder(
+
                 options: CarouselOptions(
                   viewportFraction: 0.5,
                   aspectRatio: 16 / 9,
@@ -68,6 +70,12 @@ class _ReleaseState extends State<Release> {
                 ),
                 itemCount: release.length,
                 itemBuilder: (context, i, realIndex) {
+                  MovieCardModel moviecardmodel=MovieCardModel(
+                      id: release[i].id.toString() ?? "",
+                      image: release[i].posterPath ?? "",
+                      title: release[i].title ?? '',
+                      year: release[i].releaseDate?.substring(0, 4) ?? "",
+                      additional: release[i].originalTitle ?? "");
                   return Stack(
                     children: [
                       Container(
@@ -88,17 +96,18 @@ class _ReleaseState extends State<Release> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          MovieCardModel moviemodel = MovieCardModel(
-                              isSelected: true,
-                              id: release[i].id.toString() ?? "",
-                              image: release[i].posterPath ?? "",
-                              title: release[i].title ?? '',
-                              year:
-                                  release[i].releaseDate?.substring(0, 4) ?? "",
-                              additional: release[i].originalTitle ?? "");
-                          FireBaseFunctions.addmovie(moviemodel);
+                         moviecardmodel.isSelected=true;
+                          FireBaseFunctions.addmovie(moviecardmodel);
                         },
                         child: Container(
+                            decoration:BoxDecoration(
+                  color: Color.fromARGB(230, 81, 79, 79),  // Set the background color
+                  borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),  // Curved top-left corner
+                  bottomLeft: Radius.circular(10),  // Curved bottom-left corner
+                  topRight: Radius.circular(10),  // No curve on top-right
+                  bottomRight: Radius.circular(0),
+                  )),
                           height: MediaQuery.of(context).size.height * 0.06,
                           margin: EdgeInsets.only(
                             left: 10,
@@ -106,20 +115,14 @@ class _ReleaseState extends State<Release> {
                           padding: EdgeInsets.symmetric(
                             horizontal: 5.0,
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              topLeft: Radius.circular(4),
-                            ),
-                            color: Color.fromARGB(230, 81, 79, 79),
-                          ),
+
                           child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                            moviecardmodel.isSelected?Icons.done: Icons.add,
+                            color:Colors.white,
                           ),
                         ),
                       ),
-                    ],
+                      ],
                   );
                 },
               );
@@ -133,3 +136,4 @@ class _ReleaseState extends State<Release> {
     );
   }
 }
+

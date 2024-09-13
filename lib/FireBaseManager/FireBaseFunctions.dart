@@ -28,4 +28,12 @@ class FireBaseFunctions {
     var collection = getmoviescollection();
     return collection.snapshots();
   }
+
+
+  static Future<void>  deletetask(String id ){
+    return getmoviescollection().doc(id).delete();
+
+  }
+
+
 }

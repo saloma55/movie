@@ -38,7 +38,7 @@ class _PostersState extends State<Posters> {
         return CarouselSlider.builder(
           options: CarouselOptions(
             viewportFraction: 1.0,
-            autoPlay: false,
+            autoPlay: true,
             height: MediaQuery.of(context).size.height*0.37,
           ),
           itemCount: popularpost.length,
